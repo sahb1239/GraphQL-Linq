@@ -1,0 +1,16 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "Newtonsoft.Json": "9.0.1",
+    "System.Net.Http": "4.3.1",
+    "Remotion.Linq": "2.1.1"
+  },
+
+  "frameworks": {
+    "netstandard1.3": {
+      
+    }
+  }
+}

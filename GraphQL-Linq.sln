@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GraphQL-Linq", "src\GraphQL-Linq\GraphQL-Linq.xproj", "{EFEA61AD-FCAA-42BA-8258-1617DFB33127}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GraphQL-Linq.Tests", "tests\GraphQL-Linq.Tests\GraphQL-Linq.Tests.xproj", "{7996AE8D-17B4-4F52-8D92-4845B92238AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74DF1061-2446-47F0-AD42-A8708B377072}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EFEA61AD-FCAA-42BA-8258-1617DFB33127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFEA61AD-FCAA-42BA-8258-1617DFB33127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFEA61AD-FCAA-42BA-8258-1617DFB33127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFEA61AD-FCAA-42BA-8258-1617DFB33127}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7996AE8D-17B4-4F52-8D92-4845B92238AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7996AE8D-17B4-4F52-8D92-4845B92238AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7996AE8D-17B4-4F52-8D92-4845B92238AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7996AE8D-17B4-4F52-8D92-4845B92238AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
