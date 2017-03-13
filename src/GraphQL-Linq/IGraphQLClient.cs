@@ -23,7 +23,7 @@ namespace GraphQL_Linq
         /// Used to query the GraphQL client using Linq
         /// </summary>
         /// <typeparam name="T">Type to query against</typeparam>
-        /// <returns>A <see cref="IQueryable"/> with the type parameter <see cref="T"/></returns>
+        /// <returns>A <see cref="IQueryable{T}"/> with the type parameter T</returns>
         IQueryable<T> Query<T>() where T : class;
     }
 }

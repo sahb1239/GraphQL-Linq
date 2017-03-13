@@ -7,7 +7,7 @@
     public class GraphQLDataResult<T> where T : class
     {
         /// <summary>
-        /// The data which is returned from the GraphQL server of the type <see cref="T"/>
+        /// The data which is returned from the GraphQL server of the type T
         /// </summary>
         public T Data { get; set; }
     }
