@@ -10,7 +10,7 @@
     },
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "xunit": "2.2.0-beta5-build3474",
-    "GraphQL-Linq": "1.0.0-*"
+    "GraphQL-Linq": "0.1.0-*"
   },
 
   "frameworks": {
