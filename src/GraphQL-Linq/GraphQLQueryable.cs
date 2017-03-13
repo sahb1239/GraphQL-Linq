@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using Remotion.Linq;
 using Remotion.Linq.Parsing.Structure;
@@ -29,9 +30,11 @@ namespace GraphQL_Linq
         /// </summary>
         /// <param name="client">The custom GraphQL client</param>
         /// <param name="queryBuilder">The custom GraphQL query builder</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public GraphQLQueryable(IGraphQLClient client, IGraphQLQueryBuilder queryBuilder) : base(QueryParser.CreateDefault(), new GraphQLQueryExecutor(client, queryBuilder))
         {
-            
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (queryBuilder == null) throw new ArgumentNullException(nameof(queryBuilder));
         }
     }
 }

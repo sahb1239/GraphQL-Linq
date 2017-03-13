@@ -25,6 +25,11 @@ namespace GraphQL_Linq.Tests
                 Query = query;
                 return Task.FromResult(new GraphQLDataResult<T>());
             }
+
+            IQueryable<T> IGraphQLClient.Query<T>()
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private class TestType
