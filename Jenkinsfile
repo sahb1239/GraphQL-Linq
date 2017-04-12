@@ -1,7 +1,7 @@
 pipeline {
   agent {
 	node {
-	  label 'windows_dotnetcore_preview2'
+	  label 'windows_dotnetcore_1.0'
 	  customWorkspace "\\${env.BRANCH_NAME}"
 	}
   }
@@ -18,10 +18,11 @@ pipeline {
 	stage("Build") {
 	  steps {
 		// Restore
-		bat "dotnet restore"
+		bat "dotnet restore src\\GraphQL-Linq\\GraphQL-Linq.csproj"
+		bat "dotnet restore tests\\GraphQL-Linq.Tests\\GraphQL-Linq.Tests.csproj"
 		
 		// Build
-		bat "dotnet build src\\GraphQL-Linq --configuration release --version-suffix beta${env.BUILD_ID}"
+		bat "dotnet build src\\GraphQL-Linq\\GraphQL-Linq.csproj --configuration release --version-suffix beta${env.BUILD_ID}"
 		
 		// Tests
 		bat "dotnet build tests\\GraphQL-Linq.Tests --configuration release --version-suffix beta${env.BUILD_ID}"
@@ -30,7 +31,7 @@ pipeline {
 	stage("Tests") {
 	  steps {
 		// Run tests
-		bat "dotnet test tests\\GraphQL-Linq.Tests --configuration release -xml Tests.xml"
+		bat "cmd /C scripts\\RunTests.cmd"
 		step([$class: 'XUnitBuilder', testTimeMargin: '3000', thresholdMode: 2, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'XUnitDotNetTestType', deleteOutputFiles: true, failIfNotNew: true, pattern: 'Tests.xml', skipNoTestFiles: false, stopProcessingIfError: true]]])
 	  }
 	}
@@ -44,7 +45,7 @@ pipeline {
 		bat "powershell wget %NUGET_URL% -OutFile nuget.exe"
 		withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nuget.sahbdev.dk',
 			usernameVariable: 'username', passwordVariable: 'password']]) {
-		  bat "nuget.exe push artifacts\\*beta${env.BUILD_ID}.nupkg %password% -Source https://nuget.sahbdev.dk/api/v2/package"
+		  bat "nuget.exe push **\\artifacts\\*beta${env.BUILD_ID}.nupkg %password% -Source https://nuget.sahbdev.dk/api/v2/package"
 		}
 	  }
 	}
