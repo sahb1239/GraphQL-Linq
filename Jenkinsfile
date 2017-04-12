@@ -30,8 +30,8 @@ pipeline {
 	stage("Tests") {
 	  steps {
 		// Run tests
-		bat "dotnet test tests\\GraphQL-Linq.Tests --configuration release"
-		//junit 'Tests.xml'
+		bat "dotnet test tests\\GraphQL-Linq.Tests --configuration release -xml Tests.xml"
+		step([$class: 'XUnitBuilder', testTimeMargin: '3000', thresholdMode: 2, thresholds: [[$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''], [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']], tools: [[$class: 'XUnitDotNetTestType', deleteOutputFiles: true, failIfNotNew: true, pattern: '', skipNoTestFiles: false, stopProcessingIfError: true]]])
 	  }
 	}
 	stage("Nuget") {
