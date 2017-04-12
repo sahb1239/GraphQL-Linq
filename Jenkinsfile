@@ -24,10 +24,10 @@ pipeline {
 		bat "dotnet restore"
 		
 		// Build
-		bat "dotnet build src\\GraphQL-Linq --configuration release"
+		bat "dotnet build src\\GraphQL-Linq --configuration release --version-suffix beta${env.BUILD_ID}"
 		
 		// Tests
-		bat "dotnet build tests\\GraphQL-Linq.Tests --configuration release"
+		bat "dotnet build tests\\GraphQL-Linq.Tests --configuration release --version-suffix beta${env.BUILD_ID}"
 	  }
 	}
 	stage("Tests") {
@@ -40,14 +40,14 @@ pipeline {
 	stage("Nuget") {
 	  steps {
 		// Pack Nuget
-		bat "dotnet pack src\\GraphQL-Linq --configuration release --output artifacts --version-suffix ${env.BUILD_ID}-beta"
+		bat "dotnet pack src\\GraphQL-Linq --configuration release --output artifacts --version-suffix beta${env.BUILD_ID}"
 		archiveArtifacts artifacts: '**/*.nupkg', fingerprint: true
 		
 		// Publish Nuget
 		bat "powershell wget %NUGET_URL% -OutFile nuget.exe"
 		withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'nuget.sahbdev.dk',
 			usernameVariable: 'username', passwordVariable: 'password']]) {
-		  bat "nuget.exe push artifacts\\*beta.nupkg %password% -Source https://nuget.sahbdev.dk/api/v2/package"
+		  bat "nuget.exe push artifacts\\*beta${env.BUILD_ID}.nupkg %password% -Source https://nuget.sahbdev.dk/api/v2/package"
 		}
 	  }
 	}
