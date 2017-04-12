@@ -17,9 +17,6 @@ pipeline {
 	}
 	stage("Build") {
 	  steps {
-		// Set milestone
-		milestone 1
-		
 		// Restore
 		bat "dotnet restore"
 		
