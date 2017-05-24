@@ -1,4 +1,7 @@
-﻿namespace GraphQL_Linq
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace GraphQL_Linq
 {
     /// <summary>
     /// Result from a GraphQL query
@@ -10,5 +13,47 @@
         /// The data which is returned from the GraphQL server of the type T
         /// </summary>
         public T Data { get; set; }
+
+        /// <summary>
+        /// The errors which are returned from the GraphQL server
+        /// </summary>
+        public IEnumerable<GraphQLError> Errors { get; set; }
+
+        /// <summary>
+        /// Returns true if the request was successfully by checking if the response does not contains any <see cref="Errors"/>
+        /// </summary>
+        public bool Succeeded => !Errors.Any();
+    }
+
+    /// <summary>
+    /// An error returned from a GraphQL response
+    /// </summary>
+    public class GraphQLError
+    {
+        /// <summary>
+        /// The error message from the GraphQL server
+        /// </summary>
+        public string Message { get; set; }
+
+        /// <summary>
+        /// The location/locations the error has happened
+        /// </summary>
+        public IEnumerable<GraphQLLocation> Locations { get; set; }
+    }
+
+    /// <summary>
+    /// The location of an error in a GraphQL response
+    /// </summary>
+    public class GraphQLLocation
+    {
+        /// <summary>
+        /// The line in which the error has happened
+        /// </summary>
+        public int Line { get; set; }
+
+        /// <summary>
+        /// The column in which the error has happened
+        /// </summary>
+        public int Column { get; set; }
     }
 }
