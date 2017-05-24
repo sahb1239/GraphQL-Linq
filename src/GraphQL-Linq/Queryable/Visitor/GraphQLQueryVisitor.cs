@@ -3,7 +3,7 @@ using Remotion.Linq;
 using Remotion.Linq.Clauses;
 using Remotion.Linq.Clauses.ResultOperators;
 
-namespace GraphQL_Linq
+namespace GraphQL_Linq.Queryable.Visitor
 {
     internal class GraphQLQueryVisitor : QueryModelVisitorBase
     {

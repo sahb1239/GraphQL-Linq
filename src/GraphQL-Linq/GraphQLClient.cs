@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+using GraphQL_Linq.Queryable;
 
 namespace GraphQL_Linq
 {
     /// <inheritdoc />
     public class GraphQLClient : IGraphQLClient
     {
-        private readonly string _url;
-        private readonly GraphQLQueryBuilder _queryBuilder;
-        private readonly HttpClient _client = new HttpClient();
+        private readonly IAsyncQueryProvider _queryProvider;
 
         /// <summary>
-        /// Initilizes a GraphQL client which communicates with the specified GraphQL server url using <see cref="GraphQLQueryBuilder"/>
+        /// Initilizes a GraphQL client which communicates with the specified GraphQL server url using a default builder <see cref="GraphQLQueryBuilder"/>
         /// </summary>
         /// <param name="url">URL to the GraphQL endpoint (the endpoint should accept POST methods)</param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -24,41 +19,50 @@ namespace GraphQL_Linq
         }
 
         /// <summary>
-        /// Initilizes a GraphQL client which communicates with the specified GraphQL server url
+        /// Initilizes a GraphQL client which communicates with the specified GraphQL server url using a default QueryExecutor <see cref="GraphQLQueryExecutor"/>
         /// </summary>
         /// <param name="url">URL to the GraphQL endpoint (the endpoint should accept POST methods)</param>
-        /// <param name="queryBuilder">The query builder used to query the GraphQL server</param>
+        /// <param name="queryBuilder">The query builder used to generate the query</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public GraphQLClient(string url, GraphQLQueryBuilder queryBuilder)
+        public GraphQLClient(string url, IGraphQLQueryBuilder queryBuilder) : this(queryBuilder, new GraphQLQueryExecutor(url))
         {
-            if (url == null) throw new ArgumentNullException(nameof(url));
-            if (queryBuilder == null) throw new ArgumentNullException(nameof(queryBuilder));
-
-            _url = url;
-            _queryBuilder = queryBuilder;
         }
 
-        /// <inheritdoc />
-        public async Task<GraphQLDataResult<T>> ExecuteGraphQlDataResult<T>(string query) where T : class
+        /// <summary>
+        /// Initilizes a GraphQL client which communicates with the specified GraphQL query executor
+        /// </summary>
+        /// <param name="queryBuilder">The query builder used to generate the query</param>
+        /// <param name="queryExecutor">The queryExecutor used to execute the GraphQL query</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public GraphQLClient(IGraphQLQueryBuilder queryBuilder, IGraphQLQueryExecutor queryExecutor)
+            : this(new GraphQlQueryCompiler(queryExecutor, queryBuilder))
         {
-            if (query == null) throw new ArgumentNullException(nameof(query));
+        }
 
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, _url)
-            {
-                Content = new StringContent(query, Encoding.UTF8, "application/json")
-            };
+        /// <summary>
+        /// Initilizes a GraphQL client which communicates with the specified <see cref="IQueryCompiler"/>
+        /// </summary>
+        /// <param name="queryCompiler">The QueryCompiler used to compile the queries</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        internal GraphQLClient(IQueryCompiler queryCompiler)
+            : this(new GraphQLQueryProvider(queryCompiler))
+        {
+        }
 
-            HttpResponseMessage result = await _client.SendAsync(request);
-            result.EnsureSuccessStatusCode();
-
-            string response = await result.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<GraphQLDataResult<T>>(response);
+        /// <summary>
+        /// Initilizes a GraphQL client which communicates with the specified <see cref="IQueryCompiler"/>
+        /// </summary>
+        /// <param name="queryProvider">The QueryProvider used to execute the queries</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        internal GraphQLClient(IAsyncQueryProvider queryProvider)
+        {
+            _queryProvider = queryProvider ?? throw new ArgumentNullException(nameof(queryProvider));
         }
 
         /// <inheritdoc />
         public IQueryable<T> Query<T>() where T : class
         {
-            return new GraphQLQueryable<T>(this, _queryBuilder);
+            return new GraphQLQueryable<T>(_queryProvider);
         }
     }
 }

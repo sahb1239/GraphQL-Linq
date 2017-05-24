@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GraphQL-Linq", "src\GraphQL-Linq\GraphQL-Linq.xproj", "{EFEA61AD-FCAA-42BA-8258-1617DFB33127}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GraphQL-Linq.Tests", "tests\GraphQL-Linq.Tests\GraphQL-Linq.Tests.xproj", "{7996AE8D-17B4-4F52-8D92-4845B92238AB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74DF1061-2446-47F0-AD42-A8708B377072}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL-Linq", "src\GraphQL-Linq\GraphQL-Linq.csproj", "{4BA42362-3F61-4DE4-9983-03E1DC28EE79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL-Linq.Tests", "tests\GraphQL-Linq.Tests\GraphQL-Linq.Tests.csproj", "{665CB68F-91C2-4E99-A303-29493B9F291B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,14 +18,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EFEA61AD-FCAA-42BA-8258-1617DFB33127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EFEA61AD-FCAA-42BA-8258-1617DFB33127}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EFEA61AD-FCAA-42BA-8258-1617DFB33127}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EFEA61AD-FCAA-42BA-8258-1617DFB33127}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7996AE8D-17B4-4F52-8D92-4845B92238AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7996AE8D-17B4-4F52-8D92-4845B92238AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7996AE8D-17B4-4F52-8D92-4845B92238AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7996AE8D-17B4-4F52-8D92-4845B92238AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BA42362-3F61-4DE4-9983-03E1DC28EE79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BA42362-3F61-4DE4-9983-03E1DC28EE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BA42362-3F61-4DE4-9983-03E1DC28EE79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BA42362-3F61-4DE4-9983-03E1DC28EE79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{665CB68F-91C2-4E99-A303-29493B9F291B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{665CB68F-91C2-4E99-A303-29493B9F291B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{665CB68F-91C2-4E99-A303-29493B9F291B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{665CB68F-91C2-4E99-A303-29493B9F291B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

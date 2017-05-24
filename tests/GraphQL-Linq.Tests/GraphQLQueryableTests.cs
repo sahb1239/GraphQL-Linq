@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GraphQL_Linq.Queryable;
 using Xunit;
 
 namespace GraphQL_Linq.Tests
@@ -13,22 +14,22 @@ namespace GraphQL_Linq.Tests
 
         public GraphQLQueryableTests()
         {
-            _queryable = new GraphQLQueryable<TestType>(_client, new GraphQLQueryBuilder());
+            _queryable = _client.Query<TestType>();
         }
 
-        private class GraphQLClientMock : IGraphQLClient
+        private class GraphQLClientMock : IGraphQLClient, IGraphQLQueryExecutor
         {
-            public string Query { get; private set; }
+            public string ExecutedQuery { get; private set; }
 
-            public Task<GraphQLDataResult<T>> ExecuteGraphQlDataResult<T>(string query) where T : class
+            public Task<GraphQLDataResult<T>> ExecuteQuery<T>(string query)
             {
-                Query = query;
+                ExecutedQuery = query;
                 return Task.FromResult(new GraphQLDataResult<T>());
             }
 
-            IQueryable<T> IGraphQLClient.Query<T>()
+            public IQueryable<T> Query<T>() where T : class
             {
-                throw new NotImplementedException();
+                return new GraphQLQueryable<T>(this);
             }
         }
 
@@ -50,7 +51,15 @@ namespace GraphQL_Linq.Tests
         {
             _queryable.ToList();
 
-            Assert.Equal("{\"query\":\"{TestType{A B C}}\"}", _client.Query);
+            Assert.Equal("{\"query\":\"{TestType{A B C}}\"}", _client.ExecutedQuery);
+        }
+
+        [Fact]
+        public async Task TestSelectAllAsync()
+        {
+            await _queryable.ToListAsync();
+
+            Assert.Equal("{\"query\":\"{TestType{A B C}}\"}", _client.ExecutedQuery);
         }
 
         [Fact]
@@ -58,7 +67,15 @@ namespace GraphQL_Linq.Tests
         {
             _queryable.Select(e => new {A = e.A, B = e.B}).ToList();
 
-            Assert.Equal("{\"query\":\"{TestType{A B}}\"}", _client.Query);
+            Assert.Equal("{\"query\":\"{TestType{A B}}\"}", _client.ExecutedQuery);
+        }
+
+        [Fact]
+        public async Task TestMapTypeSelectAllAsync()
+        {
+            await _queryable.Select(e => new { A = e.A, B = e.B }).ToListAsync();
+
+            Assert.Equal("{\"query\":\"{TestType{A B}}\"}", _client.ExecutedQuery);
         }
     }
 }
