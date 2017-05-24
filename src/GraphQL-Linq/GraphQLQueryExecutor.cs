@@ -18,7 +18,7 @@ namespace GraphQL_Linq
         }
 
         /// <inheritdoc />
-        public async Task<GraphQLDataResult<T>> ExecuteGraphQlDataResult<T>(string query)
+        public async Task<GraphQLDataResult<T>> ExecuteQuery<T>(string query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 

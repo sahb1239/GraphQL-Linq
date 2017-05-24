@@ -15,6 +15,6 @@ namespace GraphQL_Linq
         /// <param name="query">The query to send to the server</param>
         /// <returns>Returns the result of the GraphQL query</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task<GraphQLDataResult<T>> ExecuteGraphQlDataResult<T>(string query);
+        Task<GraphQLDataResult<T>> ExecuteQuery<T>(string query);
     }
 }

@@ -39,7 +39,7 @@ namespace GraphQL_Linq.Queryable
             visitor.VisitQueryModel(queryModel);
 
             GraphQLDataResult<IDictionary<string, IEnumerable<T>>> result =
-                _queryExecutor.ExecuteGraphQlDataResult<IDictionary<string, IEnumerable<T>>>(
+                _queryExecutor.ExecuteQuery<IDictionary<string, IEnumerable<T>>>(
                         JsonConvert.SerializeObject(new {query = _queryBuilder.GetQuery(visitor.GetGraphQLQueryOptions())}))
                     .GetAwaiter()
                     .GetResult();
@@ -55,7 +55,7 @@ namespace GraphQL_Linq.Queryable
             visitor.VisitQueryModel(queryModel);
 
             GraphQLDataResult<IDictionary<string, IEnumerable<T>>> result =
-                await _queryExecutor.ExecuteGraphQlDataResult<IDictionary<string, IEnumerable<T>>>(
+                await _queryExecutor.ExecuteQuery<IDictionary<string, IEnumerable<T>>>(
                         JsonConvert.SerializeObject(new { query = _queryBuilder.GetQuery(visitor.GetGraphQLQueryOptions()) }));
             return result?.Data?.Values?.SelectMany(enumerable => enumerable) ?? Enumerable.Empty<T>();
         }

@@ -21,7 +21,7 @@ namespace GraphQL_Linq.Tests
         {
             public string ExecutedQuery { get; private set; }
 
-            public Task<GraphQLDataResult<T>> ExecuteGraphQlDataResult<T>(string query)
+            public Task<GraphQLDataResult<T>> ExecuteQuery<T>(string query)
             {
                 ExecutedQuery = query;
                 return Task.FromResult(new GraphQLDataResult<T>());
