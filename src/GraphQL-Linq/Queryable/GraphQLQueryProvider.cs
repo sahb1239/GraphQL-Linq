@@ -18,9 +18,7 @@ namespace GraphQL_Linq.Queryable
 
         public GraphQLQueryProvider(IQueryCompiler queryCompiler)
         {
-            if (queryCompiler == null) throw new ArgumentNullException(nameof(queryCompiler));
-
-            _queryCompiler = queryCompiler;
+            _queryCompiler = queryCompiler ?? throw new ArgumentNullException(nameof(queryCompiler));
         }
 
         /// <inheritdoc />

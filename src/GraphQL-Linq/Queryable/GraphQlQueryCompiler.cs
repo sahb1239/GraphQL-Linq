@@ -21,8 +21,8 @@ namespace GraphQL_Linq.Queryable
 
         public GraphQlQueryCompiler(IGraphQLQueryExecutor queryExecutor, IGraphQLQueryBuilder queryBuilder)
         {
-            _queryExecutor = queryExecutor;
-            _queryBuilder = queryBuilder;
+            _queryExecutor = queryExecutor ?? throw new ArgumentNullException(nameof(queryExecutor));
+            _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
         }
 
         private QueryModel GetParsedQuery(Expression expression)
