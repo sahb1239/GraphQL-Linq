@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace GraphQL_Linq
 {
     /// <inheritdoc />
-    public class GraphQLClient : IGraphQLClient
+    public class GraphQLClient : IGraphQLClient, IGraphQLQueryExecutor
     {
         private readonly string _url;
         private readonly HttpClient _client = new HttpClient();

@@ -15,13 +15,13 @@ namespace GraphQL_Linq.Queryable
 {
     internal class GraphQlQueryCompiler : IQueryCompiler
     {
-        private readonly IGraphQLClient _client;
+        private readonly IGraphQLQueryExecutor _queryExecutor;
         private readonly IGraphQLQueryBuilder _queryBuilder;
         private readonly IQueryParser _queryParser = QueryParser.CreateDefault();
 
-        public GraphQlQueryCompiler(IGraphQLClient client, IGraphQLQueryBuilder queryBuilder)
+        public GraphQlQueryCompiler(IGraphQLQueryExecutor queryExecutor, IGraphQLQueryBuilder queryBuilder)
         {
-            _client = client;
+            _queryExecutor = queryExecutor;
             _queryBuilder = queryBuilder;
         }
 
@@ -39,7 +39,7 @@ namespace GraphQL_Linq.Queryable
             visitor.VisitQueryModel(queryModel);
 
             GraphQLDataResult<IDictionary<string, IEnumerable<T>>> result =
-                _client.ExecuteGraphQlDataResult<IDictionary<string, IEnumerable<T>>>(
+                _queryExecutor.ExecuteGraphQlDataResult<IDictionary<string, IEnumerable<T>>>(
                         JsonConvert.SerializeObject(new {query = _queryBuilder.GetQuery(visitor.GetGraphQLQueryOptions())}))
                     .GetAwaiter()
                     .GetResult();
@@ -55,7 +55,7 @@ namespace GraphQL_Linq.Queryable
             visitor.VisitQueryModel(queryModel);
 
             GraphQLDataResult<IDictionary<string, IEnumerable<T>>> result =
-                await _client.ExecuteGraphQlDataResult<IDictionary<string, IEnumerable<T>>>(
+                await _queryExecutor.ExecuteGraphQlDataResult<IDictionary<string, IEnumerable<T>>>(
                         JsonConvert.SerializeObject(new { query = _queryBuilder.GetQuery(visitor.GetGraphQLQueryOptions()) }));
             return result?.Data?.Values?.SelectMany(enumerable => enumerable) ?? Enumerable.Empty<T>();
         }

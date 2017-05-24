@@ -11,14 +11,14 @@ namespace GraphQL_Linq.Queryable
     /// <typeparam name="T">The type of the input/result of the query</typeparam>
     public class GraphQLQueryable<T> : QueryableBase<T>, IAsyncEnumerable<T>
     {
-        public GraphQLQueryable(IGraphQLClient client)
-            : this(client, new GraphQLQueryBuilder())
+        public GraphQLQueryable(IGraphQLQueryExecutor queryExecutor)
+            : this(queryExecutor, new GraphQLQueryBuilder())
         {
 
         }
 
-        public GraphQLQueryable(IGraphQLClient client, IGraphQLQueryBuilder queryBuilder)
-            : this(new GraphQLQueryProvider(new GraphQlQueryCompiler(client, queryBuilder)))
+        public GraphQLQueryable(IGraphQLQueryExecutor queryExecutor, IGraphQLQueryBuilder queryBuilder)
+            : this(new GraphQLQueryProvider(new GraphQlQueryCompiler(queryExecutor, queryBuilder)))
         {
             
         }

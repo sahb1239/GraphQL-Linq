@@ -17,7 +17,7 @@ namespace GraphQL_Linq.Tests
             _queryable = _client.Query<TestType>();
         }
 
-        private class GraphQLClientMock : IGraphQLClient
+        private class GraphQLClientMock : IGraphQLClient, IGraphQLQueryExecutor
         {
             public string ExecutedQuery { get; private set; }
 
