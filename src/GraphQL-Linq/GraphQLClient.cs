@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using GraphQL_Linq.Queryable;
 using Newtonsoft.Json;
 
 namespace GraphQL_Linq
@@ -11,8 +12,8 @@ namespace GraphQL_Linq
     public class GraphQLClient : IGraphQLClient
     {
         private readonly string _url;
-        private readonly GraphQLQueryBuilder _queryBuilder;
         private readonly HttpClient _client = new HttpClient();
+        private readonly IAsyncQueryProvider _queryProvider;
 
         /// <summary>
         /// Initilizes a GraphQL client which communicates with the specified GraphQL server url using <see cref="GraphQLQueryBuilder"/>
@@ -35,11 +36,11 @@ namespace GraphQL_Linq
             if (queryBuilder == null) throw new ArgumentNullException(nameof(queryBuilder));
 
             _url = url;
-            _queryBuilder = queryBuilder;
+            _queryProvider = new GraphQLQueryProvider(new GraphQlQueryCompiler(this, queryBuilder));
         }
 
         /// <inheritdoc />
-        public async Task<GraphQLDataResult<T>> ExecuteGraphQlDataResult<T>(string query) where T : class
+        public async Task<GraphQLDataResult<T>> ExecuteGraphQlDataResult<T>(string query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
@@ -58,7 +59,7 @@ namespace GraphQL_Linq
         /// <inheritdoc />
         public IQueryable<T> Query<T>() where T : class
         {
-            return new GraphQLQueryable<T>(this, _queryBuilder);
+            return new GraphQLQueryable<T>(_queryProvider);
         }
     }
 }
