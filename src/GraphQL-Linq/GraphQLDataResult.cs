@@ -12,17 +12,17 @@ namespace GraphQL_Linq
         /// <summary>
         /// The data which is returned from the GraphQL server of the type T
         /// </summary>
-        public T Data { get; set; }
+        public virtual T Data { get; set; }
 
         /// <summary>
         /// The errors which are returned from the GraphQL server
         /// </summary>
-        public IEnumerable<GraphQLError> Errors { get; set; }
+        public virtual IEnumerable<GraphQLError> Errors { get; set; }
 
         /// <summary>
         /// Returns true if the request was successfully by checking if the response does not contains any <see cref="Errors"/>
         /// </summary>
-        public bool Succeeded => !Errors.Any();
+        public virtual bool Succeeded => !Errors.Any();
     }
 
     /// <summary>
@@ -33,12 +33,12 @@ namespace GraphQL_Linq
         /// <summary>
         /// The error message from the GraphQL server
         /// </summary>
-        public string Message { get; set; }
+        public virtual string Message { get; set; }
 
         /// <summary>
         /// The location/locations the error has happened
         /// </summary>
-        public IEnumerable<GraphQLLocation> Locations { get; set; }
+        public virtual IEnumerable<GraphQLLocation> Locations { get; set; }
     }
 
     /// <summary>
@@ -49,11 +49,11 @@ namespace GraphQL_Linq
         /// <summary>
         /// The line in which the error has happened
         /// </summary>
-        public int Line { get; set; }
+        public virtual int Line { get; set; }
 
         /// <summary>
         /// The column in which the error has happened
         /// </summary>
-        public int Column { get; set; }
+        public virtual int Column { get; set; }
     }
 }
