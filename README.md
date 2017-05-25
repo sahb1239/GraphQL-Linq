@@ -3,7 +3,7 @@ Query GraphQL using Linq
 
 Not production ready yet.
 
-This library was developed in a semester project by grup SW803F17 in spring 2017.
+This library was developed in a semester project on [Aalborg University](http://aau.dk) by group SW803F17 in spring 2017.
 
 ## Nuget
 The library can be found on Nuget with the package name [GraphQL-Linq](https://www.nuget.org/packages/GraphQL-Linq/).
