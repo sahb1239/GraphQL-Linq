@@ -46,7 +46,7 @@ namespace GraphQL_Linq.Queryable
             return result?.Data?.Values?.SelectMany(enumerable => enumerable) ?? Enumerable.Empty<T>();
         }
 
-        public async Task<IEnumerable<T>> ExecuteCollectionAsync<T>(Expression query)
+        public async Task<IEnumerable<T>> ExecuteCollectionAsync<T>(Expression query, CancellationToken token)
         {
             // Get QueryModel
             QueryModel queryModel = GetParsedQuery(query);
@@ -60,7 +60,7 @@ namespace GraphQL_Linq.Queryable
             return result?.Data?.Values?.SelectMany(enumerable => enumerable) ?? Enumerable.Empty<T>();
         }
 
-        private static readonly MethodInfo ExecuteCollectionMethodAsync = (typeof(GraphQlQueryCompiler).GetRuntimeMethod("ExecuteCollectionAsync", new[] { typeof(Expression) }));
+        private static readonly MethodInfo ExecuteCollectionMethodAsync = (typeof(GraphQlQueryCompiler).GetRuntimeMethod("ExecuteCollectionAsync", new[] { typeof(Expression), typeof(CancellationToken) }));
 
         private Type GetIEnumerableType<T>()
         {
@@ -129,7 +129,7 @@ namespace GraphQL_Linq.Queryable
         {
             // Execution method
             var executeMethod = ExecuteCollectionMethodAsync.MakeGenericMethod(GetIEnumerableType<TResult>());
-            return await (Task<TResult>) executeMethod.Invoke(this, new[] { query });
+            return await (Task<TResult>) executeMethod.Invoke(this, new object[] { query, cancellationToken });
         }
 
         public IAsyncEnumerable<TResult> ExecuteAsync<TResult>(Expression expression)
