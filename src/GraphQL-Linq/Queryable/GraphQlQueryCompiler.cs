@@ -62,27 +62,36 @@ namespace GraphQL_Linq.Queryable
 
         private static readonly MethodInfo ExecuteCollectionMethodAsync = (typeof(GraphQlQueryCompiler).GetRuntimeMethod("ExecuteCollectionAsync", new[] { typeof(Expression), typeof(CancellationToken) }));
 
+        /// <summary>
+        /// Gets type parameter from a <see cref="IEnumerable{T}"/> type <see cref="T"/>
+        /// </summary>
+        /// <typeparam name="T">The <see cref="IEnumerable{T}"/> type</typeparam>
+        /// <returns>Returns the typeparameter T from the <see cref="IEnumerable{T}"/></returns>
         private Type GetIEnumerableType<T>()
         {
             var typeInfo = typeof(T);
 
+            // Check if the type is a array
             if (typeInfo.IsArray)
             {
                 return typeInfo.GetElementType();
             }
 
+            // Check if the type is a IEnumerable<>
             if (typeInfo.IsConstructedGenericType &&
                 typeInfo.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 return typeInfo.GenericTypeArguments.First();
             }
 
+            // Check if the type is a IAsyncEnumerable<>
             if (typeInfo.IsConstructedGenericType &&
                 typeInfo.GetGenericTypeDefinition() == typeof(IAsyncEnumerable<>))
             {
                 return typeInfo.GenericTypeArguments.First();
             }
 
+            // Get the first implemented interface which is the type IEnumerable<>
             var interfacesImplemented = typeInfo.GetTypeInfo().ImplementedInterfaces
                 .Select(t => t.GetTypeInfo())
                 .FirstOrDefault(IsGenericIEnumerable);
@@ -92,6 +101,7 @@ namespace GraphQL_Linq.Queryable
                 return interfacesImplemented.GenericTypeArguments.First();
             }
 
+            // Get the first implemented interface which is the type IAsyncEnumerable<>
             interfacesImplemented = typeInfo.GetTypeInfo().ImplementedInterfaces
                 .Select(t => t.GetTypeInfo())
                 .FirstOrDefault(IsGenericIAsyncEnumerable);
@@ -101,7 +111,7 @@ namespace GraphQL_Linq.Queryable
                 return interfacesImplemented.GenericTypeArguments.First();
             }
 
-            throw new NotSupportedException();
+            throw new NotSupportedException($"The type {typeof(T).FullName} is not supported. It should be a IEnumerable<T> type");
         }
 
         private static bool IsIEnumerable(TypeInfo type)
