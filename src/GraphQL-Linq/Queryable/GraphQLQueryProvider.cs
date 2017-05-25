@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace GraphQL_Linq.Queryable
 {
+    /// <inheritdoc />
     internal class GraphQLQueryProvider : IAsyncQueryProvider
     {
         private readonly IQueryCompiler _queryCompiler;

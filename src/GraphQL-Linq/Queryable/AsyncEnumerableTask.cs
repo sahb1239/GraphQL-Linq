@@ -4,6 +4,11 @@ using System.Threading.Tasks;
 
 namespace GraphQL_Linq.Queryable
 {
+    /// <summary>
+    /// Returns a <see cref="IAsyncEnumerable{T}"/> from a Task which return a <see cref="IEnumerable{T}"/>
+    /// The <see cref="Task{TResult}"/> is invoked when the first element is accessed using a <see cref="IAsyncEnumerator{T}"/> using the <see cref="GetEnumerator"/> method
+    /// </summary>
+    /// <typeparam name="T">The type of the elements to contain</typeparam>
     internal class AsyncEnumerableTask<T> : IAsyncEnumerable<T>
     {
         private Task<IEnumerable<T>> _enumerable;

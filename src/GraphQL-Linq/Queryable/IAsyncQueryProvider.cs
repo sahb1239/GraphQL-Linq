@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GraphQL_Linq.Queryable
 {
+    /// <summary>
+    /// A async version of the <see cref="IQueryProvider"/> used for execution of a <see cref="IQueryable{T}"/>
+    /// </summary>
     internal interface IAsyncQueryProvider : IQueryProvider
     {
         /// <summary>
@@ -21,6 +24,7 @@ namespace GraphQL_Linq.Queryable
         /// </summary>
         /// <typeparam name="TResult">The type of the value that results from executing the query</typeparam>
         /// <param name="expression">An expression tree that represents a LINQ query</param>
+        /// <param name="cancellationToken">The cancellationToken used to cancel the request</param>
         /// <returns>The value that results from executing the specified query</returns>
         Task<TResult> ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken);
     }
