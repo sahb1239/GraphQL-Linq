@@ -1,7 +1,8 @@
 # GraphQL-Linq
-Query GraphQL using Linq
-
 Not production ready yet.
+Please use [SAHB.GraphQLClient](https://github.com/sahb1239/SAHB.GraphQLClient) instead
+
+Query GraphQL using Linq
 
 This library was developed in a semester project on [Aalborg University](http://aau.dk) by group SW803F17 in spring 2017.
 
